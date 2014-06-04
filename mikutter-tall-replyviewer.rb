@@ -6,8 +6,10 @@ class Gdk::ReplyViewer
   def main_message(context = dummy_context)
     layout = main_message_org(context)
 
-    @height ||= layout.pixel_size[1]
-    helper.reset_height
+    if !@height
+      @height ||= layout.pixel_size[1]
+      helper.reset_height
+    end
 
     layout
   end
@@ -26,5 +28,5 @@ class Gdk::ReplyViewer
 end
 
 
-Plugin.create(:mikutter_tall_replyviewer)
-end
+Plugin.create(:mikutter_tall_replyviewer) {
+}
