@@ -1,32 +1,24 @@
-#! coding:UTF-8
+# coding:UTF-8
 
 class Gdk::ReplyViewer 
-  alias :main_message_org :main_message
-
-  def main_message(context = dummy_context)
-    layout = main_message_org(context)
-
-    if !@height
-      @height ||= layout.pixel_size[1]
-      helper.reset_height
-    end
-
-    layout
-  end
-
   alias :height_org :height
 
   def height
-    tmp_height = height_org
+    height_tmp = height_org
 
-    if tmp_height != 0 && @height
-      @height
+    # メンション(元々のheight()で判定）かつ、リプライメッセージ取得済み
+    result = if (height_tmp != 0 && @message)
+      main_message.pixel_size[1]
     else
-      0
+      height_tmp
     end
+
+    result
   end
 end
 
 
 Plugin.create(:mikutter_tall_replyviewer) {
+  # プラグインのあり方について真剣な議論が必要なステージに来ている。
 }
+
